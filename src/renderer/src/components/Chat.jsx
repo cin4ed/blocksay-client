@@ -1,19 +1,24 @@
 import { useState, useEffect, useRef } from 'react'
 import ChatMessage from './ChatMessage'
-import ChatHeader from './ChatHeader'
-import chat from '../lib/chat'
+// import ChatHeader from './ChatHeader'
 
-function Chat({ onToggleSidebar }) {
+function Chat({ messages, user, onMessageSend }) {
   const scrollerRef = useRef(null)
   const [showScrollBottom, setShowScrollBottom] = useState(true)
+  const [inputValue, setInputValue] = useState('')
 
-  const messages = chat.messages.map((message) => {
-    return message.sender === 'Bob' ? (
+  const msgs = messages.map((message) => {
+    return message.sender === user ? (
       <ChatMessage message={message} />
     ) : (
       <ChatMessage message={message} variant={true} />
     )
   })
+
+  function handleMessageSend(message) {
+    onMessageSend(message)
+    setInputValue('')
+  }
 
   function checkScrollPosition() {
     const scroller = scrollerRef.current
@@ -46,19 +51,13 @@ function Chat({ onToggleSidebar }) {
 
   return (
     <>
-      <div className="flex flex-col w-full gap-3 p-3">
-        <div className="flex w-full items-center border-b border-[#5D5D5D]">
-          <ToggleSidebarButton onClick={onToggleSidebar} />
-          <div className="flex-1">
-            <ChatHeader chatName="testing" />
-          </div>
-        </div>
+      <div className="flex flex-col h-full w-full gap-3 p-3">
         <div
           className="flex-1 overflow-y-scroll antialiased space-y-5 relative"
           id="scroll_enabled"
           ref={scrollerRef}
         >
-          {messages}
+          {msgs}
           {showScrollBottom && (
             <button
               onClick={scrollToBottom}
@@ -74,10 +73,13 @@ function Chat({ onToggleSidebar }) {
             <input
               className="flex-1 bg-black border text-[.7rem] font-mono border-[#5D5D5D] px-2 py-1 focus:ring-0 focus:outline-none"
               type="text"
+              onInput={(e) => setInputValue(e.target.value)}
+              value={inputValue}
             />
             <button
               className="border border-[#5D5D5D] px-4 py-1 font-mono text-[.7rem] hover:bg-white hover:text-black active:bg-black active:text-white"
               type="button"
+              onClick={() => handleMessageSend(inputValue)}
             >
               SEND
             </button>
@@ -87,6 +89,5 @@ function Chat({ onToggleSidebar }) {
     </>
   )
 }
-
 
 export default Chat

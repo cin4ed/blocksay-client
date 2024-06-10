@@ -4,9 +4,10 @@ import ServerController from '../lib/ServerController'
 
 // Exposed API for renderer
 const blocksay = {
-  server: {
+  servers: {
     add: ServerController.add,
-    getAll: ServerController.getAll
+    getAll: ServerController.getAll,
+    delete: ServerController.delete
   },
   messages: {
     add: ServerController.addMessage,

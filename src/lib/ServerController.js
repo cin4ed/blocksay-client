@@ -32,4 +32,20 @@ export default class ServerController {
       })
     })
   }
+
+  static delete(ip) {
+    return new Promise((resolve, reject) => {
+      const db = database.connect()
+
+      db.run('DELETE FROM chats WHERE ip = ?', [ip], (err) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+
+        db.close()
+      })
+    })
+  }
 }

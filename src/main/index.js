@@ -14,7 +14,7 @@ function createWindow() {
     height: 670,
     show: false,
     minWidth: 700,
-    minHeight: 400,
+    minHeight: 600,
     titleBarStyle: 'hidden',
     trafficLightPosition: {
       x: 15,

@@ -16,7 +16,7 @@ export function testServerConnection(ip) {
   })
 }
 
-export function getServerData(ip) {
+export function getServerName(ip) {
   return new Promise((resolve) => {
     const socket = io(`http://${ip}:3000`)
 
