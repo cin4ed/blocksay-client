@@ -3,7 +3,7 @@ import ChatMessage from './ChatMessage'
 import ChatHeader from './ChatHeader'
 import chat from '../lib/chat'
 
-function Chat() {
+function Chat({ onToggleSidebar }) {
   const scrollerRef = useRef(null)
   const [showScrollBottom, setShowScrollBottom] = useState(true)
 
@@ -47,9 +47,11 @@ function Chat() {
   return (
     <>
       <div className="flex flex-col w-full gap-3 p-3">
-        <div>
-          <button type="button">\\<</button>
-          <ChatHeader chatName="testing" />
+        <div className="flex w-full items-center border-b border-[#5D5D5D]">
+          <ToggleSidebarButton onClick={onToggleSidebar} />
+          <div className="flex-1">
+            <ChatHeader chatName="testing" />
+          </div>
         </div>
         <div
           className="flex-1 overflow-y-scroll antialiased space-y-5 relative"
@@ -85,5 +87,6 @@ function Chat() {
     </>
   )
 }
+
 
 export default Chat

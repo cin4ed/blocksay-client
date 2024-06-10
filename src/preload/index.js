@@ -1,20 +1,27 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import ServerController from '../lib/ServerController'
 
-// Custom APIs for renderer
-const api = {}
+// Exposed API for renderer
+const blocksay = {
+  server: {
+    add: ServerController.add,
+    getAll: ServerController.getAll
+  },
+  messages: {
+    add: ServerController.addMessage,
+    getAllBy: ServerController.getAllMessages
+  }
+}
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('blocksay', blocksay)
   } catch (error) {
     console.error(error)
   }
 } else {
   window.electron = electronAPI
-  window.api = api
+  window.blocksay = blocksay
 }
