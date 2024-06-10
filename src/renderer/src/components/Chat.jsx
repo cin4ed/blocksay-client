@@ -7,13 +7,13 @@ function Chat({ messages, user, onMessageSend }) {
   const [showScrollBottom, setShowScrollBottom] = useState(true)
   const [inputValue, setInputValue] = useState('')
 
-  const msgs = messages.map((message) => {
-    return message.sender === user ? (
-      <ChatMessage message={message} />
-    ) : (
-      <ChatMessage message={message} variant={true} />
-    )
-  })
+  // const msgs = messages.map((message) => {
+  //   return message.sender === user ? (
+  //     <ChatMessage message={message} />
+  //   ) : (
+  //     <ChatMessage message={message} variant={true} />
+  //   )
+  // })
 
   function handleMessageSend(message) {
     onMessageSend(message)
@@ -49,6 +49,10 @@ function Chat({ messages, user, onMessageSend }) {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('messages', messages)
+  }, [messages])
+
   return (
     <>
       <div className="flex flex-col h-full w-full gap-3 p-3">
@@ -57,7 +61,13 @@ function Chat({ messages, user, onMessageSend }) {
           id="scroll_enabled"
           ref={scrollerRef}
         >
-          {msgs}
+          {messages.map((message) =>
+            message.sender === user ? (
+              <ChatMessage key={message.id} message={message} />
+            ) : (
+              <ChatMessage key={message.id} message={message} variant={true} />
+            )
+          )}
           {showScrollBottom && (
             <button
               onClick={scrollToBottom}
