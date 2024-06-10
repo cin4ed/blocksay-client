@@ -41,10 +41,11 @@ function App() {
         })
 
         socket.on('message', (message) => {
-          setMessages((prevMessages) => ({
-            ...prevMessages,
-            [server.ip]: [...prevMessages[server.ip], message]
-          }))
+          // setMessages((prevMessages) => ({
+          //   ...prevMessages,
+          //   [server.ip]: [...prevMessages[server.ip], message]
+          // }))
+          console.log(message)
         })
 
         socket.on('messages', (messages) => {
@@ -90,6 +91,7 @@ function App() {
   }
 
   const handleMessageSend = async (content) => {
+    console.log(currentServer, user, content)
     if (currentServer) {
       sockets[currentServer].emit('message', { content, sender: user })
     }
@@ -110,7 +112,6 @@ function App() {
 
   return (
     <>
-      {' '}
       {showAddServerForm ? (
         <div className="flex h-lvh justify-center items-center antialiased">
           {' '}
